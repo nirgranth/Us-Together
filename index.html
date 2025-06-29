@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e6e6fa; /* Lavender */
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-in-out;
+            overflow: hidden; /* Important for image cropping */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .timer-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .timer-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1e293b; /* slate-800 */
+        }
+        .timer-label {
+            font-size: 0.875rem;
+            color: #475569; /* slate-600 */
+            text-transform: uppercase;
+        }
+        .heart-icon {
+            animation: beat 1.5s infinite;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1px;
+            height: 100%;
+            background-color: #9ca3af; /* slate-400 */
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0.25rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 9999px;
+            background-color: white;
+            border: 2px solid #db2777; /* fuchsia */
+        }
+
+        /* Image specific styles for cropping and hover */
+        .card img {
+            width: 100%;
+            height: 100%; /* Make images take full height of their card */
+            object-fit: cover; /* This is key for cropping */
+            object-position: center; /* Centers the image within the frame */
+            transition: transform 0.3s ease-in-out; /* For smooth hover effect */
+        }
+        .card:hover img {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+    </style>
+</head>
+<body class="bg-[#e6e6fa] text-slate-700">
+
+    <header class="text-center py-16 px-4 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x800/e9d5ff/a855f7?text=Our+Journey')">
+        <div class="bg-black bg-opacity-20 p-10 rounded-2xl inline-block" style="background-color: rgba(219, 39, 119, 0.7);">
+            <h1 class="font-playfair text-5xl md:text-7xl text-white font-bold">Nir & Ziya</h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-200">Celebrating a Journey of Love</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <section id="countdown" class="mb-16">
+            <div class="card p-6 md:p-10 max-w-4xl mx-auto">
+                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Together For...</h2>
+                <div id="timer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 text-center">
+                    </div>
+                   <div class="text-center mt-6">
+                    <p class="text-slate-600">Our special day: <span id="anniversaryDate" class="font-semibold"></span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="story" class="mb-16">
+            <div class="card p-6 md:p-10">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/2">
+                        <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[#db2777] mb-4">Our Story</h2>
+                        <p class="text-slate-600 leading-relaxed mb-4">It feels like just yesterday we started this incredible journey. From our first meet, to nervous laughter and endless conversation, to today, our bond has only grown stronger. We've built a life full of love, adventure, and countless cherished memories.</p>
+                        <p class="text-slate-600 leading-relaxed">We have shared so many beautiful moments together, and I cherish each one of them. I have grown so much as a person because of you. I hope I have given you happiness and the love you deserve</p>
+                    </div>
+                    <div class="md:w-1/2 card p-2 h-80">
+                        <img src="./Img/0.png" alt="A happy couple" class="rounded-2xl shadow-lg w-full h-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="mb-16">
+            <div class="card p-6 md:p-10 max-w-6xl mx-auto">
+               <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">A Timeline of Our Journey</h2>
+               <div class="relative">
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">August 2024 - How We Met</p>
+                   <p class="text-slate-600">
+                 A random encounter in VirelApp brought us together, a new girl in a new place.<br>
+                 I was the old friend of someone who showed up unexpectedly, we got introduced and thought nothing of it.<br>
+                 I met a <strong>dumb girl</strong> and you met a <strong>dumb boy</strong> that day.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">September 2024 - Movies and Late Night Talks</p>
+                   <p class="text-slate-600">
+                 We started talking a little, us sharing our <b>interests</b> in anime and TV shows, me giving you a <i>hard</i> time about arima.<br>
+                 Also me pulling your leg about some things, although later I had to come make peace about it.<br>
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">October 2024 - Movies and Late Night Talks</p>
+                   <p class="text-slate-600">
+                 We spent countless nights binge-watching our favorite shows, sharing horror movies and laughter, and creating a spark.<br>
+                 We talked for hours, sharing interests and dislikes, learning in our new friendship, the connection was instant.<br>
+                 I was worried about me coming in between the things you had, but I knew I had found <strong>someone special</strong>, a friend for life.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">November 2024 - The Bad Confession and The First Month</p>
+                   <p class="text-slate-600">
+                 A perfect moment that marked the beginning of our forever. A <strong>confession</strong> that changed everything.<br>
+                 Your flirty remarks and playful teasing made it hard to ignore the chemistry between us.<br>
+                 I still don't know who <b>confessed</b> to who, but it changed everything, I sent you that text that you still <b>cherish</b> and tease me about.<br>
+                 I got sick on your <b>birthday</b>, and couldn't wish you, even though I <i>tried</i> so hard to stay awake.<br>
+                 The first month was a whirlwind of emotions, filled with <b>joy</b> and a hint of <i>uncertainty</i>.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">December 2024 - The Calm</p>
+                   <p class="text-slate-600">
+                 A month of peace and understanding, where we learned to navigate our feelings, we took time to understand each other.<br>
+                 Building a foundation of trust and love, we shared our <b>dreams</b>, <b>fears</b>, and <b>hopes</b>, growing closer with each passing day.<br>
+                 I was <i>uncertain</i> about our future, but I knew <b>I wanted you by my side.</b>
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">January 2025 - The Distance</p>
+                   <p class="text-slate-600">
+                 I had to go to away for a while and it was tough being apart, I <b>missed</b> you more than words could express, and it <i>hurt</i>.<br>
+                 Every relationship has its challenges, and ours was no different, we faced the <i>distance</i> with strength, knowing it was temporary.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">February 2025 - The Valentine Mishap</p>
+                   <p class="text-slate-600">
+                 A month of love and togetherness, where we celebrated our bond.<br>
+                 Miscommunication led to hurt feelings, and we found ourselves in a tough situation, it led to a me being upset.<br>
+                 It was a tough moment, but we learned the importance of open communication, it wasn't much but, I sent you a <b>rose</b> and <b>chocolates</b>.<br>
+                 Hoping that things will be better, However, things took an unexpected turn on Valentine's Day, the gifts I sent you ended up being <i>stolen</i>.<br>
+                 We realized that love is not just about the good times, but also about overcoming challenges together.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">March 2025 - The Churn</p>
+                   <p class="text-slate-600">
+                 A month of ups and downs, where we faced challenges that tested our love, we had our first <b>big fight</b>, and it was tough.<br>
+                 We learned that love is not always easy, but it's worth fighting for, and we both were ready to put in the effort.<br>
+                 I loved the fact that you had kept the rose I sent so <b>carefully</b>, I appreciated the <b>little things</b> you did to make me feel <b>special</b>.<br>
+                 I learnt to take take care of you in your <i>periods</i> by being there, giving you <b>snacks</b> and <b>chocolates</b>.<br>
+                 We had to navigate through misunderstandings and hurt feelings, but we came out stronger.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">April 2025 - The Peace</p>
+                   <p class="text-slate-600">
+                 After the stormy months, we finally found our peace, it was a time of healing, where we focused on rebuilding our connection.<br>
+                 Your <b>birthday gift</b> to me reminded me of the beauty in our journey, it was just <b>a picture of us together</b>, but it held so much <b>meaning</b>.<br>
+                 We realized that love is not just about the highs, but also about weathering the lows together.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">May 2025 - The Growth</p>
+                   <p class="text-slate-600">
+                 A month of personal growth, where we learned more about ourselves and each other, understanding what we wanted for our future.<br>
+                 On 14th May, we had a <i>interesting day</i>. I had <b>surprised you with a bouquet of roses</b>, later I found something hurtful in the evening.<br>
+                 I confronted you about it. and that led you to lie and mishandle the situation, but we learned the importance of <b>honesty</b> and <b>trust</b>.<br>
+                 You told everyone about us <b>dating</b> in an <i>unexpected surprise</i>, we learned to communicate better, to listen, and to support each other.<br>
+                 It was a time of growth, where we tried to become better partners and chose to work through our issues together.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">June 2025 - The Comfort</p>
+                   <p class="text-slate-600">
+                 In the midst of our busy lives, we found comfort in each other's presence, we learned to cherish the small moments.<br>
+                 Like <b>quiet evenings</b> and <b>shared meals</b>, it was a time of stability, where we could lean on each other.<br>
+                 We realized that love is not just about grand gestures, but also about the everyday moments that bring us closer.
+                   </p>
+             </div>
+             <div class="timeline-item">
+                   <div class="timeline-dot"></div>
+                   <p class="font-semibold text-[#db2777]">July 2025 - The Future</p>
+                   <p class="text-slate-600">
+                 As we looked ahead, we felt a renewed sense of hope and excitement for our future together, its a time of possibilities.<br>
+                 I have learned so much about <b>myself</b>, <b>you</b>, and <b>us</b>, and I can't wait to see where our journey takes us next.<br>
+                 I hope you know how much I love you, and how much I cherish every moment we spend together, and that I can give you the <b>best of me</b>.<br>
+                   </p>
+             </div>
+                 </div>
+        </section>
+
+        <section id="playlist" class="mb-16">
+            <div class="card p-6 md:p-10 max-w-4xl mx-auto">
+                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Our Playlist</h2>
+                <p class="text-center text-slate-500 mb-6">The soundtrack to our love story.</p>
+                <div class="aspect-w-16 aspect-h-9">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5HLJarDKVDBOYdcTR8XDok?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="mb-16">
+               <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Our Memories</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="card p-2">
+                    <img src="./Img/1.jpg" alt="Memory 1" class="rounded-xl">
+                </div>
+                <div class="card p-2">
+                    <img src="./Img/2.jpg" alt="Memory 2" class="rounded-xl">
+                </div>
+                <div class="card p-2">
+                    <img src="./Img/3.jpg" alt="Memory 3" class="rounded-xl">
+                </div>
+                <div class="card p-2">
+                    <img src="./Img/4.png" alt="Memory 4" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden md:block">
+                    <img src="./Img/5.jpg" alt="Memory 5" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden md:block">
+                    <img src="./Img/6.jpg" alt="Memory 6" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/7.jpg" alt="Memory 7" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/8.jpg" alt="Memory 8" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/9.jpg" alt="Memory 9" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/10.jpg" alt="Memory 10" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/11.jpg" alt="Memory 11" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/12.jpg" alt="Memory 12" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/13.jpg" alt="Memory 13" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/14.jpg" alt="Memory 14" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/15.jpg" alt="Memory 15" class="rounded-xl">
+                </div>
+                <div class="card p-2 hidden lg:block">
+                    <img src="./Img/16.png" alt="Memory 16" class="rounded-xl">
+                </div>
+            </div>
+        </section>
+
+        <section id="message">
+               <div class="card p-6 md:p-10 max-w-4xl mx-auto text-center">
+                   <div class="heart-icon text-[#db2777] text-4xl mb-4">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                           <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                       </svg>
+                   </div>
+                   <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[#db2777] mb-4">A Note To My Love</h2>
+                   <p class="text-slate-600 leading-relaxed text-lg">
+                       "My dearest, with you, every day is a celebration.<br> Thank you for being <i><b>my partner, my cute bubu, and my love</b></i>.<br> I love you more than words can say. Here's to our future!"
+                   </p>
+               </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 mt-12">
+        <p class="text-slate-600">Made with love, for my love.</p>
+        <p class="text-slate-600 text-sm">© <span>2024</span> Nir & Ziya</p>
+    </footer>
+
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 hidden">
+        <span class="absolute top-4 right-4 text-white text-5xl cursor-pointer hover:scale-110 transition-transform duration-200" id="closeModal">×</span>
+        <img src="" alt="Enlarged Memory" id="modalImage" class="max-w-[90%] max-h-[90vh] object-contain rounded-lg shadow-lg">
+    </div>
+
+    <script>
+        // --- Anniversary Date Configuration ---
+        // IMPORTANT: Change this to your special date!
+        // Format: Year, Month, Day (Month is 0-indexed: 0=Jan, 1=Feb, etc.)
+        const anniversary = new Date(2024, 10, 1); // Example: November 1, 2024
+
+        function updateCountdown() {
+            const now = new Date();
+            let diff = now - anniversary;
+
+            // Calculations
+            let years = now.getFullYear() - anniversary.getFullYear();
+            let months = now.getMonth() - anniversary.getMonth();
+            let days = now.getDate() - anniversary.getDate();
+
+            // Adjust days and months if current date is before anniversary's day/month
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0); // Get last day of previous month
+                days += prevMonth.getDate(); // Add days in previous month
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12; // Add 12 months
+            }
+            
+            // For hours, minutes, seconds, we calculate from the remaining difference after accounting for full days, months, years
+            const secondsInDay = 1000 * 60 * 60 * 24;
+            const remainingDiffAfterDays = diff % secondsInDay;
+
+            const hours = Math.floor(remainingDiffAfterDays / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingDiffAfterDays % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingDiffAfterDays % (1000 * 60)) / 1000);
+
+
+            // Display on the page
+            const timerElement = document.getElementById('timer');
+            if(timerElement){
+                timerElement.innerHTML = `
+                    <div class="timer-box"><div class="timer-value">${years}</div><div class="timer-label">Years</div></div>
+                    <div class="timer-box"><div class="timer-value">${months}</div><div class="timer-label">Months</div></div>
+                    <div class="timer-box"><div class="timer-value">${days}</div><div class="timer-label">Days</div></div>
+                    <div class="timer-box">
+                        <div class="flex justify-center space-x-2">
+                            <div>
+                                <div class="timer-value" style="font-size: 1.8rem;">${String(hours).padStart(2, '0')}</div>
+                                <div class="timer-label" style="font-size: 0.7rem;">Hours</div>
+                            </div>
+                            <div>
+                                <div class="timer-value" style="font-size: 1.8rem;">:</div>
+                                <div class="timer-label" style="font-size: 0.7rem;"> </div>
+                            </div>
+                            <div>
+                                <div class="timer-value" style="font-size: 1.8rem;">${String(minutes).padStart(2, '0')}</div>
+                                <div class="timer-label" style="font-size: 0.7rem;">Mins</div>
+                            </div>
+                            <div>
+                                <div class="timer-value" style="font-size: 1.8rem;">:</div>
+                                <div class="timer-label" style="font-size: 0.7rem;"> </div>
+                            </div>
+                            <div>
+                                <div class="timer-value" style="font-size: 1.8rem;">${String(seconds).padStart(2, '0')}</div>
+                                <div class="timer-label" style="font-size: 0.7rem;">Secs</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set anniversary date text
+            const anniversaryDateEl = document.getElementById('anniversaryDate');
+            if(anniversaryDateEl){
+                anniversaryDateEl.textContent = anniversary.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+            }
+
+            // Set current year in footer
+            const yearEl = document.getElementById('year');
+            if(yearEl){
+                yearEl.textContent = new Date().getFullYear();
+            }
+
+            // Initial call to display countdown immediately
+            updateCountdown();
+            // Update countdown every second
+            setInterval(updateCountdown, 1000);
+
+            // Get all gallery images and the story image
+            const galleryImages = document.querySelectorAll('#gallery .card img, #story .card img');
+            const imageModal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModal = document.getElementById('closeModal');
+
+            galleryImages.forEach(image => {
+                image.addEventListener('click', () => {
+                    modalImage.src = image.src; // Set the source of the modal image
+                    imageModal.classList.remove('hidden'); // Show the modal
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                });
+            });
+
+            closeModal.addEventListener('click', () => {
+                imageModal.classList.add('hidden'); // Hide the modal
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close modal when clicking outside the image
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal) {
+                    imageModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
