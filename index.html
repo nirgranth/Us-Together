@@ -50,7 +50,8 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
         }
-        /* Timeline Styles */
+        
+        /* --- New Timeline Animation Styles --- */
         .timeline-item {
             position: relative;
             padding-bottom: 2rem;
@@ -59,6 +60,8 @@
         .timeline-item:last-child {
             padding-bottom: 0;
         }
+
+        /* The vertical line */
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -67,7 +70,14 @@
             width: 1px;
             height: 100%;
             background-color: #9ca3af; /* slate-400 */
+            /* Animation: Start state */
+            transform: scaleY(0);
+            transform-origin: top;
+            /* Animate with a delay after the dot */
+            transition: transform 0.4s 0.2s ease-out;
         }
+
+        /* The dot */
         .timeline-dot {
             position: absolute;
             left: -0.5rem;
@@ -77,6 +87,31 @@
             border-radius: 9999px;
             background-color: white;
             border: 2px solid #db2777; /* fuchsia */
+            /* Animation: Start state */
+            transform: scale(0);
+            /* Animate immediately */
+            transition: transform 0.3s ease-out;
+        }
+
+        /* The text content */
+        .timeline-content {
+            /* Animation: Start state */
+            opacity: 0;
+            transform: translateY(20px);
+            /* Animate last, after the line */
+            transition: opacity 0.5s 0.4s ease-out, transform 0.5s 0.4s ease-out;
+        }
+
+        /* Animation Trigger: When .in-view is added */
+        .timeline-item.in-view .timeline-dot {
+            transform: scale(1);
+        }
+        .timeline-item.in-view::before {
+            transform: scaleY(1);
+        }
+        .timeline-item.in-view .timeline-content {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Image specific styles for cropping and hover */
@@ -136,98 +171,122 @@
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">August 2024 - How We Met</p>
-                        <p class="text-slate-600">
-                            A chance encounter on VirelApp brought two very different worlds together. You were new, I was familiar with the place — and fate introduced us in the simplest way. We didn’t know then how special it would all become. That day, we were just two slightly clueless souls, unknowingly meeting someone unforgettable.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">August 2024 - How We Met</p>
+                            <p class="text-slate-600">
+                                A chance encounter on VirelApp brought two very different worlds together. You were new, I was familiar with the place — and fate introduced us in the simplest way. We didn’t know then how special it would all become. That day, we were just two slightly clueless souls, unknowingly meeting someone unforgettable.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">September 2024 - Movies and Late Night Talks</p>
-                        <p class="text-slate-600">
-                            We started connecting over our shared love for anime and shows. You took my teasing in stride, and even when I gave you a hard time about Arima, we always ended up laughing. Slowly, playfulness turned into comfort.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">September 2024 - Movies and Late Night Talks</p>
+                            <p class="text-slate-600">
+                                We started connecting over our shared love for anime and shows. You took my teasing in stride, and even when I gave you a hard time about Arima, we always ended up laughing. Slowly, playfulness turned into comfort.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">October 2024 - Finding Connection</p>
-                        <p class="text-slate-600">
-                            Countless nights spent watching horror movies, sharing stories, and laughing together created a beautiful spark. Our conversations flowed effortlessly, and our connection grew deeper. Even when I worried if I belonged in your world, I knew I had found someone truly special.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">October 2024 - Finding Connection</p>
+                            <p class="text-slate-600">
+                                Countless nights spent watching horror movies, sharing stories, and laughing together created a beautiful spark. Our conversations flowed effortlessly, and our connection grew deeper. Even when I worried if I belonged in your world, I knew I had found someone truly special.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">November 2024 - The Beginning</p>
-                        <p class="text-slate-600">
-                            A beautiful moment changed everything. Our playful banter turned into something more, something real. I still cringe thinking about the message I sent — the one you lovingly tease me about. I fell sick on your birthday and couldn’t stay awake to wish you, though I tried with all my heart. The first month brought joy, wonder, and a touch of uncertainty — but mostly, it brought *us*.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">November 2024 - The Beginning</p>
+                            <p class="text-slate-600">
+                                A beautiful moment changed everything. Our playful banter turned into something more, something real. I still cringe thinking about the message I sent — the one you lovingly tease me about. I fell sick on your birthday and couldn’t stay awake to wish you, though I tried with all my heart. The first month brought joy, wonder, and a touch of uncertainty — but mostly, it brought *us*.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">December 2024 - Quiet Growth</p>
-                        <p class="text-slate-600">
-                            We slowed down and took the time to understand each other. We shared our dreams and fears, discovering how beautifully our lives could align. Though I still had questions about the future, one thing was clear — I wanted you in it.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">December 2024 - Quiet Growth</p>
+                            <p class="text-slate-600">
+                                We slowed down and took the time to understand each other. We shared our dreams and fears, discovering how beautifully our lives could align. Though I still had questions about the future, one thing was clear — I wanted you in it.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">January 2025 - Apart but Together</p>
-                        <p class="text-slate-600">
-                            Life took us on different paths for a while, and being away from you was harder than I imagined. But we held on — knowing the distance was just a moment, and our bond was stronger than the miles between us.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">January 2025 - Apart but Together</p>
+                            <p class="text-slate-600">
+                                Life took us on different paths for a while, and being away from you was harder than I imagined. But we held on — knowing the distance was just a moment, and our bond was stronger than the miles between us.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">February 2025 - A Valentine We Won’t Forget</p>
-                        <p class="text-slate-600">
-                            Love was in the air, but so were misunderstandings. We stumbled a little, misread each other, and things got messy. Still, I sent you a rose and chocolates, hoping to make it right. Even when the valentines' gifts went missing, I knew that the real gift was us learning to hold each other through tough times.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">February 2025 - A Valentine We Won’t Forget</p>
+                            <p class="text-slate-600">
+                                Love was in the air, but so were misunderstandings. We stumbled a little, misread each other, and things got messy. Still, I sent you a rose and chocolates, hoping to make it right. Even when the valentines' gifts went missing, I knew that the real gift was us learning to hold each other through tough times.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">March 2025 - Weathering Storms</p>
-                        <p class="text-slate-600">
-                            We had our first big fight, and it wasn’t easy. But through tears and silence, we realized something powerful: we were both willing to try. I’ll never forget how tenderly you kept that rose, or how meaningful the small gestures became. I learned to support you during your toughest days — with snacks, chocolates, and a quiet kind of love.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">March 2025 - Weathering Storms</p>
+                            <p class="text-slate-600">
+                                We had our first big fight, and it wasn’t easy. But through tears and silence, we realized something powerful: we were both willing to try. I’ll never forget how tenderly you kept that rose, or how meaningful the small gestures became. I learned to support you during your toughest days — with snacks, chocolates, and a quiet kind of love.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">April 2025 - Healing</p>
-                        <p class="text-slate-600">
-                            After the emotional waves, came still waters. We focused on rebuilding, on forgiving, on appreciating what we had. Your birthday gift — just a picture of us — said more than words ever could. It reminded me how much love can be held in a single moment.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">April 2025 - Healing</p>
+                            <p class="text-slate-600">
+                                After the emotional waves, came still waters. We focused on rebuilding, on forgiving, on appreciating what we had. Your birthday gift — just a picture of us — said more than words ever could. It reminded me how much love can be held in a single moment.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">May 2025 - Learning and Loving</p>
-                        <p class="text-slate-600">
-                            We grew — not just together, but within ourselves. I surprised you with roses, and later that day we faced something painful. It was a hard moment, and it tested our trust. But we chose honesty. You surprised me again by telling the world about us, and it showed me you cared. We were learning to be better, together.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">May 2025 - Learning and Loving</p>
+                            <p class="text-slate-600">
+                                We grew — not just together, but within ourselves. I surprised you with roses, and later that day we faced something painful. It was a hard moment, and it tested our trust. But we chose honesty. You surprised me again by telling the world about us, and it showed me you cared. We were learning to be better, together.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">June 2025 - Simple Joys</p>
-                        <p class="text-slate-600">
-                            Life got busy, but love stayed quiet and constant. We found joy in everyday things — shared meals, peaceful evenings, just being close. We learned that sometimes, love lives in the smallest, calmest moments.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">June 2025 - Simple Joys</p>
+                            <p class="text-slate-600">
+                                Life got busy, but love stayed quiet and constant. We found joy in everyday things — shared meals, peaceful evenings, just being close. We learned that sometimes, love lives in the smallest, calmest moments.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <p class="font-semibold text-[#db2777]">July 2025 - Looking Ahead</p>
-                        <p class="text-slate-600">
-                            As we dream about tomorrow, I feel nothing but hope. I’ve discovered so much about myself and us. You’ve helped me grow, and I hope I’ve done the same for you. I love you deeply — and I can’t wait to write the next chapters of our beautiful story, together.
-                        </p>
+                        <div class="timeline-content">
+                            <p class="font-semibold text-[#db2777]">July 2025 - Looking Ahead</p>
+                            <p class="text-slate-600">
+                                As we dream about tomorrow, I feel nothing but hope. I’ve discovered so much about myself and us. You’ve helped me grow, and I hope I’ve done the same for you. I love you deeply — and I can’t wait to write the next chapters of our beautiful story, together.
+                            </p>
+                        </div>
                     </div>
 
                 </div>
@@ -316,7 +375,7 @@
     
     <footer class="text-center py-8 mt-12">
         <p class="text-slate-600">Made with love, for my love.</p>
-        <p class="text-slate-600 text-sm">© <span>2024</span> Nir & Ziya</p>
+        <p class="text-slate-600 text-sm">© <span id="footerYear">2024</span> Nir & Ziya</p>
     </footer>
 
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 hidden">
@@ -326,32 +385,27 @@
 
     <script>
         // --- Anniversary Date Configuration ---
-        // IMPORTANT: Change this to your special date!
-        // Format: Year, Month, Day (Month is 0-indexed: 0=Jan, 1=Feb, etc.)
-        const anniversary = new Date(2024, 10, 1); // Example: November 1, 2024
+        const anniversary = new Date(2024, 10, 1); // Month is 0-indexed: 10 = November
 
         function updateCountdown() {
             const now = new Date();
             let diff = now - anniversary;
 
-            // Calculations
             let years = now.getFullYear() - anniversary.getFullYear();
             let months = now.getMonth() - anniversary.getMonth();
             let days = now.getDate() - anniversary.getDate();
 
-            // Adjust days and months if current date is before anniversary's day/month
             if (days < 0) {
                 months--;
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0); // Get last day of previous month
-                days += prevMonth.getDate(); // Add days in previous month
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
             }
 
             if (months < 0) {
                 years--;
-                months += 12; // Add 12 months
+                months += 12;
             }
             
-            // For hours, minutes, seconds, we calculate from the remaining difference after accounting for full days, months, years
             const secondsInDay = 1000 * 60 * 60 * 24;
             const remainingDiffAfterDays = diff % secondsInDay;
 
@@ -360,7 +414,6 @@
             const seconds = Math.floor((remainingDiffAfterDays % (1000 * 60)) / 1000);
 
 
-            // Display on the page
             const timerElement = document.getElementById('timer');
             if(timerElement){
                 timerElement.innerHTML = `
@@ -406,7 +459,7 @@
             }
 
             // Set current year in footer
-            const yearEl = document.getElementById('year');
+            const yearEl = document.getElementById('footerYear');
             if(yearEl){
                 yearEl.textContent = new Date().getFullYear();
             }
@@ -416,31 +469,60 @@
             // Update countdown every second
             setInterval(updateCountdown, 1000);
 
-            // Get all gallery images and the story image
+            // --- Image Modal Logic ---
             const galleryImages = document.querySelectorAll('#gallery .card img, #story .card img');
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
             const closeModal = document.getElementById('closeModal');
 
             galleryImages.forEach(image => {
+                image.style.cursor = 'pointer'; // Add pointer cursor to images
                 image.addEventListener('click', () => {
-                    modalImage.src = image.src; // Set the source of the modal image
-                    imageModal.classList.remove('hidden'); // Show the modal
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                    modalImage.src = image.src;
+                    imageModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
                 });
             });
 
-            closeModal.addEventListener('click', () => {
-                imageModal.classList.add('hidden'); // Hide the modal
-                document.body.style.overflow = ''; // Restore scrolling
-            });
+            const hideModal = () => {
+                imageModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
 
-            // Close modal when clicking outside the image
+            closeModal.addEventListener('click', hideModal);
             imageModal.addEventListener('click', (e) => {
                 if (e.target === imageModal) {
-                    imageModal.classList.add('hidden');
-                    document.body.style.overflow = '';
+                    hideModal();
                 }
+            });
+
+            // --- Timeline Animation on Scroll ---
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = parseInt(entry.target.dataset.index, 10);
+                        // Stagger the animation start for each item
+                        setTimeout(() => {
+                            entry.target.classList.add('in-view');
+                        }, index * 150);
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            };
+
+            const observerOptions = {
+                root: null, // Use the viewport 
+                threshold: 0.2, // Trigger when 20% of the item is visible for faster detection
+            };
+
+            const timelineObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+            // Observe each timeline item and add a data-index for staggering
+            timelineItems.forEach((item, index) => {
+                item.dataset.index = index;
+                timelineObserver.observe(item);
             });
         });
 
