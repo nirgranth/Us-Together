@@ -61,7 +61,7 @@
             letter-spacing: 0.05em; /* Add subtle letter spacing */
             margin-top: 0.25rem;
         }
-        /* Custom styles for smaller timer values */
+        /* Custom styles for smaller timer values for hours/minutes/seconds */
         .timer-box .time-part .timer-value {
             font-size: 1.8rem !important;
             margin-bottom: 0.25rem;
@@ -170,6 +170,9 @@
         .hero-header {
             position: relative;
             overflow: hidden; /* Hide overflowing pseudo-element */
+            background-image: url('./Img/hero-bg.jpg'); /* Example background image */
+            background-size: cover;
+            background-position: center;
         }
         .hero-header::before {
             content: '';
@@ -178,7 +181,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(219, 39, 119, 0.8), rgba(255, 105, 180, 0.7)); /* Gradient overlay */
+            background: linear-gradient(135deg, rgba(219, 39, 119, 0.85), rgba(255, 105, 180, 0.75)); /* Gradient overlay, slightly stronger */
             z-index: 1;
             transform: skewY(-2deg); /* Subtle skew effect */
             transform-origin: top left;
@@ -187,7 +190,13 @@
             position: relative;
             z-index: 2;
         }
+        .hero-content .rounded-2xl {
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly more visible frosted glass */
+            backdrop-filter: blur(8px); /* More blur for frosted glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+        }
 
+        /* Modal specific styles */
         .modal-content-wrapper {
             max-width: 90%;
             max-height: 90vh;
@@ -198,10 +207,15 @@
 
         #modalImage {
             transition: transform 0.3s ease-in-out;
+            transform: scale(0.8); /* Start smaller */
         }
         #imageModal.active #modalImage {
             transform: scale(1);
         }
+        #imageModal.closing #modalImage {
+            transform: scale(0.8); /* Scale down when closing */
+        }
+
         #imageModal {
             opacity: 0;
             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -210,6 +224,18 @@
         #imageModal.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Scroll-based Fade-in Sections */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform; /* Optimize for animation */
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
     </style>
@@ -225,7 +251,7 @@
 
     <main class="container mx-auto px-4 py-12">
 
-        <section id="countdown" class="mb-16">
+        <section id="countdown" class="mb-16 fade-in-section">
             <div class="card p-6 md:p-10 max-w-4xl mx-auto">
                 <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Together For...</h2>
                 <div id="timer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 text-center">
@@ -236,7 +262,7 @@
             </div>
         </section>
 
-        <section id="story" class="mb-16">
+        <section id="story" class="mb-16 fade-in-section">
             <div class="card p-6 md:p-10">
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <div class="md:w-1/2">
@@ -251,7 +277,7 @@
             </div>
         </section>
 
-        <section id="timeline" class="mb-16">
+        <section id="timeline" class="mb-16 fade-in-section">
             <div class="card p-6 md:p-10 max-w-6xl mx-auto">
                 <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">A Timeline of Our Journey</h2>
                 <div class="timeline-container">
@@ -379,7 +405,7 @@
             </div>
         </section>
 
-        <section id="playlist" class="mb-16">
+        <section id="playlist" class="mb-16 fade-in-section">
             <div class="card p-6 md:p-10 max-w-4xl mx-auto">
                 <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Our Playlist</h2>
                 <p class="text-center text-[var(--text-light)] mb-6">The soundtrack to our love story.</p>
@@ -389,7 +415,7 @@
             </div>
         </section>
 
-        <section id="gallery" class="mb-16">
+        <section id="gallery" class="mb-16 fade-in-section">
                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Our Memories</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div class="card p-2">
@@ -443,7 +469,7 @@
             </div>
         </section>
 
-        <section id="message">
+        <section id="message" class="fade-in-section">
                <div class="card p-6 md:p-10 max-w-4xl mx-auto text-center">
                    <div class="heart-icon text-[var(--primary-color)] text-4xl mb-4">
                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 20 20" fill="currentColor">
@@ -467,7 +493,7 @@
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
         <span class="absolute top-4 right-4 text-white text-5xl cursor-pointer hover:scale-110 transition-transform duration-200" id="closeModal">×</span>
         <div class="modal-content-wrapper">
-             <img src="" alt="Enlarged Memory" id="modalImage" class="max-w-[90%] max-h-[90vh] object-contain rounded-lg shadow-lg transform scale-0">
+             <img src="" alt="Enlarged Memory" id="modalImage" class="max-w-[90%] max-h-[90vh] object-contain rounded-lg shadow-lg">
         </div>
     </div>
 
@@ -568,14 +594,20 @@
                 image.style.cursor = 'pointer';
                 image.addEventListener('click', () => {
                     modalImage.src = image.src;
+                    imageModal.classList.remove('closing'); // Ensure closing animation is reset
                     imageModal.classList.add('active'); // Use 'active' class for opacity/visibility
                     document.body.style.overflow = 'hidden';
                 });
             });
 
             const hideModal = () => {
-                imageModal.classList.remove('active');
-                document.body.style.overflow = '';
+                imageModal.classList.add('closing'); // Add closing class for animation
+                modalImage.addEventListener('transitionend', function handler() {
+                    imageModal.classList.remove('active');
+                    imageModal.classList.remove('closing');
+                    document.body.style.overflow = '';
+                    modalImage.removeEventListener('transitionend', handler); // Clean up listener
+                }, { once: true });
             };
 
             closeModal.addEventListener('click', hideModal);
@@ -683,6 +715,28 @@
             updateTimelineDot();
             window.addEventListener('scroll', debouncedUpdateTimelineDot);
             window.addEventListener('resize', debouncedUpdateTimelineDot);
+
+            // --- Scroll-based Fade-in Sections Logic ---
+            const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+            const observerOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            fadeInSections.forEach(section => {
+                observer.observe(section);
+            });
         });
 
     </script>
