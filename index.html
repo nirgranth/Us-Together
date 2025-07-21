@@ -47,7 +47,23 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Lighter shadow */
             transition: all 0.2s ease-in-out;
+            border: 1px solid #db2777; /* Added a 2px solid pink border */
+            display: flex; /* Ensure flex for internal centering */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
         }
+        /* Specific override for the first three timer boxes to make them smaller */
+        .timer-box.compact {
+            padding: 0.75rem 0.5rem; /* Reduced padding, adjusted horizontal */
+        }
+        .timer-box .compact-value {
+            font-size: 2rem; /* Slightly smaller font for values */
+        }
+        .timer-box .compact-label {
+            font-size: 0.8rem; /* Slightly smaller font for labels */
+        }
+
         .timer-value {
             font-size: 2.5rem; /* Slightly larger */
             font-weight: 700;
@@ -62,14 +78,7 @@
             margin-top: 0.25rem;
         }
         /* Custom styles for smaller timer values for hours/minutes/seconds */
-        .timer-box .time-part .timer-value {
-            font-size: 1.8rem !important;
-            margin-bottom: 0.25rem;
-        }
-        .timer-box .time-part .timer-label {
-            font-size: 0.7rem !important;
-            margin-top: 0;
-        }
+        /* These specific styles are now largely handled by inline Tailwind classes in JS */
         .heart-icon {
             animation: beat 1.5s infinite;
             display: inline-block; /* Ensure animation applies correctly */
@@ -534,28 +543,33 @@
             const timerElement = document.getElementById('timer');
             if(timerElement){
                 timerElement.innerHTML = `
-                    <div class="timer-box"><div class="timer-value">${years}</div><div class="timer-label">Years</div></div>
-                    <div class="timer-box"><div class="timer-value">${months}</div><div class="timer-label">Months</div></div>
-                    <div class="timer-box"><div class="timer-value">${days}</div><div class="timer-label">Days</div></div>
-                    <div class="timer-box flex justify-center items-center h-full">
-                        <div class="flex space-x-2 md:space-x-3 time-part">
-                            <div>
-                                <div class="timer-value">${String(hours).padStart(2, '0')}</div>
-                                <div class="timer-label">Hours</div>
+                    <div class="timer-box compact">
+                        <div class="timer-value compact-value">${years}</div>
+                        <div class="timer-label compact-label">Years</div>
+                    </div>
+                    <div class="timer-box compact">
+                        <div class="timer-value compact-value">${months}</div>
+                        <div class="timer-label compact-label">Months</div>
+                    </div>
+                    <div class="timer-box compact">
+                        <div class="timer-value compact-value">${days}</div>
+                        <div class="timer-label compact-label">Days</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="flex flex-col w-full px-1 sm:px-2">
+                            <div class="flex justify-around items-baseline w-full">
+                                <div class="timer-value text-xl sm:text-2xl">${String(hours).padStart(2, '0')}</div>
+                                <div class="timer-value text-xl sm:text-2xl">:</div>
+                                <div class="timer-value text-xl sm:text-2xl">${String(minutes).padStart(2, '0')}</div>
+                                <div class="timer-value text-xl sm:text-2xl">:</div>
+                                <div class="timer-value text-xl sm:text-2xl">${String(seconds).padStart(2, '0')}</div>
                             </div>
-                            <div class="flex items-center">
-                                <div class="timer-value">:</div>
-                            </div>
-                            <div>
-                                <div class="timer-value">${String(minutes).padStart(2, '0')}</div>
-                                <div class="timer-label">Mins</div>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="timer-value">:</div>
-                            </div>
-                            <div>
-                                <div class="timer-value">${String(seconds).padStart(2, '0')}</div>
-                                <div class="timer-label">Secs</div>
+                            <div class="flex justify-around items-center w-full mt-1">
+                                <div class="timer-label text-[0.55rem] sm:text-xs">Hours</div>
+                                <div class="w-1 sm:w-2"></div>
+                                <div class="timer-label text-[0.55rem] sm:text-xs">Mins</div>
+                                <div class="w-1 sm:w-2"></div>
+                                <div class="timer-label text-[0.55rem] sm:text-xs">Secs</div>
                             </div>
                         </div>
                     </div>
@@ -594,19 +608,19 @@
                 image.style.cursor = 'pointer';
                 image.addEventListener('click', () => {
                     modalImage.src = image.src;
-                    imageModal.classList.remove('closing'); // Ensure closing animation is reset
-                    imageModal.classList.add('active'); // Use 'active' class for opacity/visibility
+                    imageModal.classList.remove('closing');
+                    imageModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
                 });
             });
 
             const hideModal = () => {
-                imageModal.classList.add('closing'); // Add closing class for animation
+                imageModal.classList.add('closing');
                 modalImage.addEventListener('transitionend', function handler() {
                     imageModal.classList.remove('active');
                     imageModal.classList.remove('closing');
                     document.body.style.overflow = '';
-                    modalImage.removeEventListener('transitionend', handler); // Clean up listener
+                    modalImage.removeEventListener('transitionend', handler);
                 }, { once: true });
             };
 
@@ -641,7 +655,7 @@
                     const contentRect = content.getBoundingClientRect();
                     const contentCenterY = contentRect.top + contentRect.height / 2;
 
-                    const activationThreshold = window.innerHeight * 0.25; // Larger activation area
+                    const activationThreshold = window.innerHeight * 0.25;
 
                     if (contentRect.top < viewportCenter + activationThreshold && contentRect.bottom > viewportCenter - activationThreshold) {
                         if (!activeItem || Math.abs(contentCenterY - viewportCenter) < Math.abs(activeItemContentCenterY - viewportCenter)) {
@@ -673,18 +687,15 @@
                     
                     const newDotTop = Math.max(minTop, Math.min(dotTop, maxTop));
                     
-                    // Only apply pulse animation if dot position significantly changes
                     const currentDotTop = parseFloat(movingDot.style.top || '0');
-                    if (Math.abs(currentDotTop - newDotTop) > 5) { // Threshold for "significant" movement
+                    if (Math.abs(currentDotTop - newDotTop) > 5) {
                         movingDot.classList.add('active-pulse');
-                        setTimeout(() => movingDot.classList.remove('active-pulse'), 1000); // Remove after animation
+                        setTimeout(() => movingDot.classList.remove('active-pulse'), 1000);
                     }
 
                     movingDot.style.top = `${newDotTop}px`;
 
                 } else {
-                    // If no item is active (e.g., scrolled past timeline), keep dot at a reasonable position
-                    // For example, if scrolled above, keep at top. If scrolled below, keep at bottom.
                     const firstItemContent = timelineItems[0].querySelector('.timeline-content');
                     const lastItemContent = timelineItems[timelineItems.length - 1].querySelector('.timeline-content');
                     
@@ -693,9 +704,9 @@
                         const lastContentRect = lastItemContent.getBoundingClientRect();
 
                         if (window.scrollY < firstContentRect.top + window.scrollY - (window.innerHeight / 2)) {
-                            movingDot.style.top = '0px'; // Scrolled above timeline
+                            movingDot.style.top = '0px';
                         } else if (window.scrollY > lastContentRect.bottom + window.scrollY - (window.innerHeight / 2)) {
-                            movingDot.style.top = `${timelineLine.offsetHeight - movingDot.offsetHeight}px`; // Scrolled below timeline
+                            movingDot.style.top = `${timelineLine.offsetHeight - movingDot.offsetHeight}px`;
                         }
                     }
                 }
@@ -710,7 +721,7 @@
                 };
             };
 
-            const debouncedUpdateTimelineDot = debounce(updateTimelineDot, 10); // Debounce for performance
+            const debouncedUpdateTimelineDot = debounce(updateTimelineDot, 10);
 
             updateTimelineDot();
             window.addEventListener('scroll', debouncedUpdateTimelineDot);
@@ -720,16 +731,16 @@
             const fadeInSections = document.querySelectorAll('.fade-in-section');
 
             const observerOptions = {
-                root: null, // relative to the viewport
+                root: null,
                 rootMargin: '0px',
-                threshold: 0.1 // 10% of the section must be visible
+                threshold: 0.1
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Stop observing once visible
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
