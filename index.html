@@ -51,67 +51,55 @@
             50% { transform: scale(1.1); }
         }
         
-        /* --- New Timeline Animation Styles --- */
+        /* --- Timeline Styles --- */
+        .timeline-container {
+            position: relative;
+        }
+
+        /* The main vertical line */
+        .timeline-line {
+            position: absolute;
+            left: calc(0.75rem - 1px); /* Centers line with the dot (dot is 1.5rem wide, line is 2px wide) */
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #db2777; /* Fuchsia */
+        }
+
+        /* The moving dot */
+        .moving-timeline-dot {
+            position: absolute;
+            left: 0; /* Aligns its left edge with the start of the timeline-container */
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 9999px;
+            background-color: #db2777; /* Fuchsia */
+            border: 3px solid white;
+            z-index: 10; /* Ensure it's on top */
+            transition: top 0.2s ease-out, transform 0.2s ease-out; /* Smooth movement */
+            transform: scale(1); /* Initial scale */
+        }
+
         .timeline-item {
             position: relative;
             padding-bottom: 2rem;
-            padding-left: 2.5rem;
+            padding-left: 2rem; /* Offset for content, after the dot */
         }
         .timeline-item:last-child {
             padding-bottom: 0;
         }
 
-        /* The vertical line */
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.25rem;
-            width: 1px;
-            height: 100%;
-            background-color: #9ca3af; /* slate-400 */
-            /* Animation: Start state */
-            transform: scaleY(0);
-            transform-origin: top;
-            /* Animate with a delay after the dot */
-            transition: transform 0.4s 0.2s ease-out;
-        }
-
-        /* The dot */
-        .timeline-dot {
-            position: absolute;
-            left: -0.5rem;
-            top: 0.25rem;
-            height: 1.25rem;
-            width: 1.25rem;
-            border-radius: 9999px;
-            background-color: white;
-            border: 2px solid #db2777; /* fuchsia */
-            /* Animation: Start state */
-            transform: scale(0);
-            /* Animate immediately */
-            transition: transform 0.3s ease-out;
-        }
-
-        /* The text content */
         .timeline-content {
-            /* Animation: Start state */
-            opacity: 0;
-            transform: translateY(20px);
-            /* Animate last, after the line */
-            transition: opacity 0.5s 0.4s ease-out, transform 0.5s 0.4s ease-out;
+            opacity: 0.6; /* Default slightly faded */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(0); /* Ensure no initial transform */
         }
 
-        /* Animation Trigger: When .in-view is added */
-        .timeline-item.in-view .timeline-dot {
-            transform: scale(1);
-        }
-        .timeline-item.in-view::before {
-            transform: scaleY(1);
-        }
-        .timeline-item.in-view .timeline-content {
+        /* Highlight active content */
+        .timeline-content.active {
             opacity: 1;
-            transform: translateY(0);
+            font-weight: 600; /* Make text bolder */
+            transform: translateY(-5px); /* Slight lift */
         }
 
         /* Image specific styles for cropping and hover */
@@ -167,10 +155,13 @@
         <section id="timeline" class="mb-16">
             <div class="card p-6 md:p-10 max-w-6xl mx-auto">
                 <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">A Timeline of Our Journey</h2>
-                <div class="relative">
+                <div class="timeline-container">
+                    <!-- Main vertical line -->
+                    <div class="timeline-line"></div>
+                    <!-- The single moving dot -->
+                    <div id="movingDot" class="moving-timeline-dot"></div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">August 2024 - How We Met</p>
                             <p class="text-slate-600">
@@ -180,7 +171,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">September 2024 - Movies and Late Night Talks</p>
                             <p class="text-slate-600">
@@ -190,7 +180,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">October 2024 - Finding Connection</p>
                             <p class="text-slate-600">
@@ -200,7 +189,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">November 2024 - The Beginning</p>
                             <p class="text-slate-600">
@@ -210,7 +198,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">December 2024 - Quiet Growth</p>
                             <p class="text-slate-600">
@@ -220,7 +207,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">January 2025 - Apart but Together</p>
                             <p class="text-slate-600">
@@ -230,7 +216,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">February 2025 - A Valentine We Won’t Forget</p>
                             <p class="text-slate-600">
@@ -240,7 +225,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">March 2025 - Weathering Storms</p>
                             <p class="text-slate-600">
@@ -250,7 +234,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">April 2025 - Healing</p>
                             <p class="text-slate-600">
@@ -260,7 +243,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">May 2025 - Learning and Loving</p>
                             <p class="text-slate-600">
@@ -270,7 +252,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">June 2025 - Simple Joys</p>
                             <p class="text-slate-600">
@@ -280,7 +261,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">July 2025 - The Month of Love</p>
                             <p class="text-slate-600">
@@ -290,7 +270,6 @@
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <p class="font-semibold text-[#db2777]">August 2025 - Looking Ahead</p>
                             <p class="text-slate-600">
@@ -371,7 +350,7 @@
                <div class="card p-6 md:p-10 max-w-4xl mx-auto text-center">
                    <div class="heart-icon text-[#db2777] text-4xl mb-4">
                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 20 20" fill="currentColor">
-                           <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                           <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 0 115.656 5.656L10 17.657l-6.828-6.829a4 0 010-5.656z" clip-rule="evenodd" />
                        </svg>
                    </div>
                    <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[#db2777] mb-4">A Note To My Love</h2>
@@ -486,7 +465,7 @@
             const closeModal = document.getElementById('closeModal');
 
             galleryImages.forEach(image => {
-                image.style.cursor = 'pointer'; // Add pointer cursor to images
+                image.style.cursor = 'pointer';
                 image.addEventListener('click', () => {
                     modalImage.src = image.src;
                     imageModal.classList.remove('hidden');
@@ -506,34 +485,84 @@
                 }
             });
 
-            // --- Timeline Animation on Scroll ---
+            // --- Timeline Moving Dot Logic ---
+            const timelineContainer = document.querySelector('.timeline-container');
             const timelineItems = document.querySelectorAll('.timeline-item');
+            const movingDot = document.getElementById('movingDot');
+            const timelineLine = document.querySelector('.timeline-line');
 
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const index = parseInt(entry.target.dataset.index, 10);
-                        // Stagger the animation start for each item
-                        setTimeout(() => {
-                            entry.target.classList.add('in-view');
-                        }, index * 150);
-                        observer.unobserve(entry.target); // Stop observing once animated
+            function updateTimelineDot() {
+                if (!timelineContainer || !movingDot || timelineItems.length === 0) {
+                    return;
+                }
+
+                const containerRect = timelineContainer.getBoundingClientRect();
+                const viewportCenter = window.innerHeight / 2;
+
+                let activeItem = null;
+                let activeItemContentCenterY = 0; // Will store the center of the content div
+
+                // Find the active item (the one closest to the viewport center)
+                timelineItems.forEach((item, index) => {
+                    const content = item.querySelector('.timeline-content');
+                    if (!content) return;
+
+                    const contentRect = content.getBoundingClientRect();
+                    const contentCenterY = contentRect.top + contentRect.height / 2;
+
+                    // Check if the item's content is within a reasonable range of the viewport center
+                    const activationThreshold = window.innerHeight * 0.2; // Adjusted threshold for content visibility
+
+                    if (contentRect.top < viewportCenter + activationThreshold && contentRect.bottom > viewportCenter - activationThreshold) {
+                        if (!activeItem || Math.abs(contentCenterY - viewportCenter) < Math.abs(activeItemContentCenterY - viewportCenter)) {
+                            activeItem = item;
+                            activeItemContentCenterY = contentCenterY;
+                        }
                     }
                 });
-            };
 
-            const observerOptions = {
-                root: null, // Use the viewport 
-                threshold: 0.2, // Trigger when 20% of the item is visible for faster detection
-            };
+                // Update active class for timeline content
+                timelineItems.forEach(item => {
+                    const content = item.querySelector('.timeline-content');
+                    if (content) {
+                        if (item === activeItem) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    }
+                });
 
-            const timelineObserver = new IntersectionObserver(observerCallback, observerOptions);
+                // Position the moving dot
+                if (activeItem) {
+                    const activeContent = activeItem.querySelector('.timeline-content');
+                    const activeContentRect = activeContent.getBoundingClientRect();
+                    
+                    // Calculate dot's top position relative to the timeline container
+                    // Dot's center should align with the active content's center
+                    const dotTop = (activeContentRect.top + activeContentRect.height / 2) - containerRect.top - (movingDot.offsetHeight / 2);
+                    
+                    // Constrain the dot to stay within the timeline line boundaries
+                    const minTop = 0;
+                    const maxTop = timelineLine.offsetHeight - movingDot.offsetHeight;
+                    movingDot.style.top = `${Math.max(minTop, Math.min(dotTop, maxTop))}px`;
 
-            // Observe each timeline item and add a data-index for staggering
-            timelineItems.forEach((item, index) => {
-                item.dataset.index = index;
-                timelineObserver.observe(item);
-            });
+                    // Add a slight scale animation when the dot moves to a new active item
+                    movingDot.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        movingDot.style.transform = 'scale(1)';
+                    }, 200); // Briefly scale up then back down
+                } else {
+                    // If no item is active (e.g., scrolled past timeline), hide or reset dot
+                    // For now, let's keep it at the top if no active item is found
+                    movingDot.style.top = '0px';
+                }
+            }
+
+            // Initial call and attach to scroll event
+            updateTimelineDot();
+            window.addEventListener('scroll', updateTimelineDot);
+            window.addEventListener('resize', updateTimelineDot); // Recalculate on resize
         });
 
     </script>
