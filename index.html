@@ -10,12 +10,12 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     <style>
         :root {
-            --primary-color: #db2777; /* Fuchsia */
-            --secondary-bg: #fdf2f8; /* Very light pink/lavender */
+            --primary-color: #db2777;
+            --secondary-bg: #fdf2f8;
             --card-bg: #ffffff;
-            --text-dark: #334155; /* Slate-700 refined */
-            --text-light: #64748b; /* Slate-600 refined */
-            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            --text-dark: #334155;
+            --text-light: #64748b;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
             --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
@@ -30,95 +30,89 @@
         }
         .card {
             background-color: var(--card-bg);
-            border-radius: 1.5rem; /* More rounded corners */
+            border-radius: 1rem;
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            overflow: hidden; /* Important for image cropping */
-            border: 1px solid rgba(0,0,0,0.05); /* Subtle border */
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .card:hover {
-            transform: translateY(-8px); /* Slightly more pronounced lift */
+            transform: translateY(-8px);
             box-shadow: var(--shadow-hover);
         }
         .timer-box {
-            background: var(--card-bg); /* Use card background for consistency */
+            background: var(--card-bg);
             padding: 1rem;
             border-radius: 1rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Lighter shadow */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: all 0.2s ease-in-out;
-            border: 1px solid #db2777; /* Added a 2px solid pink border */
-            display: flex; /* Ensure flex for internal centering */
-            flex-direction: column; /* Stack content vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
+            border: 1px solid #db2777;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        /* Specific override for the first three timer boxes to make them smaller */
         .timer-box.compact {
-            padding: 0.75rem 0.5rem; /* Reduced padding, adjusted horizontal */
+            padding: 0.75rem 0.5rem;
         }
         .timer-box .compact-value {
-            font-size: 2rem; /* Slightly smaller font for values */
+            font-size: 2rem;
         }
         .timer-box .compact-label {
-            font-size: 0.8rem; /* Slightly smaller font for labels */
+            font-size: 0.8rem;
         }
 
         .timer-value {
-            font-size: 2.5rem; /* Slightly larger */
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary-color); /* Use primary color */
-            line-height: 1; /* Adjust line height for better spacing */
+            color: var(--primary-color);
+            line-height: 1;
         }
         .timer-label {
-            font-size: 0.9rem; /* Slightly larger */
+            font-size: 0.9rem;
             color: var(--text-light);
             text-transform: uppercase;
-            letter-spacing: 0.05em; /* Add subtle letter spacing */
+            letter-spacing: 0.05em;
             margin-top: 0.25rem;
         }
-        /* Custom styles for smaller timer values for hours/minutes/seconds */
-        /* These specific styles are now largely handled by inline Tailwind classes in JS */
         .heart-icon {
             animation: beat 1.5s infinite;
-            display: inline-block; /* Ensure animation applies correctly */
+            display: inline-block;
         }
         @keyframes beat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); } /* More pronounced beat */
+            50% { transform: scale(1.15); }
         }
         
-        /* --- Timeline Styles --- */
         .timeline-container {
             position: relative;
-            padding-left: 1.5rem; /* Space for the line and dot */
+            padding-left: 1.5rem;
         }
 
-        /* The main vertical line */
         .timeline-line {
             position: absolute;
-            left: 0.75rem; /* Center with the dot */
+            left: 0.75rem;
             top: 0;
             bottom: 0;
             width: 2px;
             background-color: var(--primary-color);
         }
 
-        /* The moving dot */
         .moving-timeline-dot {
             position: absolute;
-            left: calc(0.75rem - 0.75rem); /* Align with the line's center */
+            left: calc(0.75rem - 0.75rem);
             height: 1.5rem;
             width: 1.5rem;
             border-radius: 9999px;
             background-color: var(--primary-color);
-            border: 4px solid var(--card-bg); /* Thicker white border */
+            border: 4px solid var(--card-bg);
             z-index: 10;
             transition: top 0.2s ease-out, transform 0.2s ease-out;
-            transform: scale(1); /* Initial scale */
+            transform: scale(1);
         }
         .moving-timeline-dot.active-pulse {
-            animation: dotPulse 1s ease-out; /* Apply pulse when active */
+            animation: dotPulse 1s ease-out;
         }
         @keyframes dotPulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 39, 119, 0.7); }
@@ -128,58 +122,55 @@
 
         .timeline-item {
             position: relative;
-            padding-bottom: 2.5rem; /* More space between items */
-            padding-left: 2.5rem; /* Offset for content, after the dot */
+            padding-bottom: 2.5rem;
+            padding-left: 2.5rem;
         }
         .timeline-item:last-child {
             padding-bottom: 0;
         }
 
         .timeline-content {
-            opacity: 0.6; /* Default slightly faded */
+            opacity: 0.6;
             transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
-            transform: translateY(0); /* Ensure no initial transform */
-            background-color: var(--card-bg); /* Card background for content */
-            border-radius: 0.75rem; /* Slightly rounded corners */
-            padding: 1.25rem; /* Padding inside the content box */
-            box-shadow: var(--shadow-light); /* Subtle shadow for content box */
-            border: 1px solid rgba(0,0,0,0.03); /* Lighter subtle border */
+            transform: translateY(0);
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(0,0,0,0.03);
         }
         .timeline-content p {
-            color: var(--text-light); /* Consistent text color */
+            color: var(--text-light);
         }
 
-        /* Highlight active content */
         .timeline-content.active {
             opacity: 1;
-            font-weight: 500; /* Medium weight for readability */
-            transform: translateY(-8px); /* Slight lift */
-            font-size: 1.05em; /* Slightly enlarge active text */
-            box-shadow: var(--shadow-hover); /* More pronounced shadow */
-            border-color: rgba(219, 39, 119, 0.2); /* Subtle accent border */
+            font-weight: 500;
+            transform: translateY(-8px);
+            font-size: 1.05em;
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(219, 39, 119, 0.2);
         }
         .timeline-content.active .font-semibold {
-            font-weight: 600; /* Bolder for active titles */
+            font-weight: 600;
             color: var(--primary-color);
         }
 
-        /* Image specific styles for cropping and hover */
         .card img {
             width: 100%;
-            height: 100%; /* Make images take full height of their card */
-            object-fit: cover; /* This is key for cropping */
-            object-position: center; /* Centers the image within the frame */
-            transition: transform 0.3s ease-in-out; /* For smooth hover effect */
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s ease-in-out;
         }
         .card:hover img {
-            transform: scale(1.05); /* Slightly enlarge on hover */
+            transform: scale(1.05);
         }
 
-        /* Hero Header improvements */
         .hero-header {
             position: relative;
-            overflow: hidden; /* Hide overflowing pseudo-element */
-            background-image: url('./Img/hero-bg.jpg'); /* Example background image */
+            overflow: hidden;
+            background-image: url('./Img/hero-bg.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -190,9 +181,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(219, 39, 119, 0.85), rgba(255, 105, 180, 0.75)); /* Gradient overlay, slightly stronger */
+            background: linear-gradient(135deg, rgba(219, 39, 119, 0.85), rgba(255, 105, 180, 0.75));
             z-index: 1;
-            transform: skewY(-2deg); /* Subtle skew effect */
+            transform: skewY(-2deg);
             transform-origin: top left;
         }
         .hero-content {
@@ -200,12 +191,11 @@
             z-index: 2;
         }
         .hero-content .rounded-2xl {
-            background-color: rgba(255, 255, 255, 0.15); /* Slightly more visible frosted glass */
-            backdrop-filter: blur(8px); /* More blur for frosted glass effect */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Modal specific styles */
         .modal-content-wrapper {
             max-width: 90%;
             max-height: 90vh;
@@ -216,13 +206,13 @@
 
         #modalImage {
             transition: transform 0.3s ease-in-out;
-            transform: scale(0.8); /* Start smaller */
+            transform: scale(0.8);
         }
         #imageModal.active #modalImage {
             transform: scale(1);
         }
         #imageModal.closing #modalImage {
-            transform: scale(0.8); /* Scale down when closing */
+            transform: scale(0.8);
         }
 
         #imageModal {
@@ -235,12 +225,11 @@
             visibility: visible;
         }
 
-        /* Scroll-based Fade-in Sections */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            will-change: opacity, transform; /* Optimize for animation */
+            will-change: opacity, transform;
         }
         .fade-in-section.is-visible {
             opacity: 1;
@@ -493,8 +482,9 @@
         </section>
 
     </main>
-    
-    <footer class="text-center py-8 mt-12 bg-white rounded-t-3xl shadow-inner">
+
+    <!-- <footer class="text-center py-8 mt-12 bg-white rounded-t-3xl shadow-inner"> -->
+    <footer class="text-center py-8 mt-12 bg-white">
         <p class="text-[var(--text-light)]">Made with love, for my love.</p>
         <p class="text-[var(--text-light)] text-sm">© <span id="footerYear">2024</span> Nir & Ziya</p>
     </footer>
@@ -507,8 +497,7 @@
     </div>
 
     <script>
-        // --- Anniversary Date Configuration ---
-        const anniversary = new Date(2024, 10, 1); // Month is 0-indexed: 10 = November
+        const anniversary = new Date(2024, 10, 1);
 
         function updateCountdown() {
             const now = new Date();
@@ -518,10 +507,8 @@
             let months = now.getMonth() - anniversary.getMonth();
             let days = now.getDate() - anniversary.getDate();
 
-            // Adjust days and months if current day/month is before anniversary day/month
             if (days < 0) {
                 months--;
-                // Get days in the previous month
                 const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                 days += prevMonth.getDate();
             }
@@ -531,7 +518,6 @@
                 months += 12;
             }
             
-            // Calculate remaining time for hours, minutes, seconds after full days
             const secondsInDay = 1000 * 60 * 60 * 24;
             const remainingDiffAfterDays = diff % secondsInDay;
 
@@ -577,9 +563,7 @@
             }
         }
 
-        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Set anniversary date text
             const anniversaryDateEl = document.getElementById('anniversaryDate');
             if(anniversaryDateEl){
                 anniversaryDateEl.textContent = anniversary.toLocaleDateString('en-US', {
@@ -587,18 +571,14 @@
                 });
             }
 
-            // Set current year in footer
             const yearEl = document.getElementById('footerYear');
             if(yearEl){
                 yearEl.textContent = new Date().getFullYear();
             }
 
-            // Initial call to display countdown immediately
             updateCountdown();
-            // Update countdown every second
             setInterval(updateCountdown, 1000);
 
-            // --- Image Modal Logic ---
             const galleryImages = document.querySelectorAll('#gallery .card img, #story .card img');
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
@@ -631,7 +611,6 @@
                 }
             });
 
-            // --- Timeline Moving Dot Logic ---
             const timelineContainer = document.querySelector('.timeline-container');
             const timelineItems = document.querySelectorAll('.timeline-item');
             const movingDot = document.getElementById('movingDot');
@@ -727,7 +706,6 @@
             window.addEventListener('scroll', debouncedUpdateTimelineDot);
             window.addEventListener('resize', debouncedUpdateTimelineDot);
 
-            // --- Scroll-based Fade-in Sections Logic ---
             const fadeInSections = document.querySelectorAll('.fade-in-section');
 
             const observerOptions = {
