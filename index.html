@@ -5,85 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Us</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     <style>
+        :root {
+            --primary-color: #db2777; /* Fuchsia */
+            --secondary-bg: #fdf2f8; /* Very light pink/lavender */
+            --card-bg: #ffffff;
+            --text-dark: #334155; /* Slate-700 refined */
+            --text-light: #64748b; /* Slate-600 refined */
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e6e6fa; /* Lavender */
+            background-color: var(--secondary-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
         }
         .font-playfair {
             font-family: 'Playfair Display', serif;
         }
         .card {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 1.5rem; /* More rounded corners */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease-in-out;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             overflow: hidden; /* Important for image cropping */
+            border: 1px solid rgba(0,0,0,0.05); /* Subtle border */
         }
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px); /* Slightly more pronounced lift */
+            box-shadow: var(--shadow-hover);
         }
         .timer-box {
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--card-bg); /* Use card background for consistency */
             padding: 1rem;
             border-radius: 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Lighter shadow */
+            transition: all 0.2s ease-in-out;
         }
         .timer-value {
-            font-size: 2.25rem;
+            font-size: 2.5rem; /* Slightly larger */
             font-weight: 700;
-            color: #1e293b; /* slate-800 */
+            color: var(--primary-color); /* Use primary color */
+            line-height: 1; /* Adjust line height for better spacing */
         }
         .timer-label {
-            font-size: 0.875rem;
-            color: #475569; /* slate-600 */
+            font-size: 0.9rem; /* Slightly larger */
+            color: var(--text-light);
             text-transform: uppercase;
+            letter-spacing: 0.05em; /* Add subtle letter spacing */
+            margin-top: 0.25rem;
+        }
+        /* Custom styles for smaller timer values */
+        .timer-box .time-part .timer-value {
+            font-size: 1.8rem !important;
+            margin-bottom: 0.25rem;
+        }
+        .timer-box .time-part .timer-label {
+            font-size: 0.7rem !important;
+            margin-top: 0;
         }
         .heart-icon {
             animation: beat 1.5s infinite;
+            display: inline-block; /* Ensure animation applies correctly */
         }
         @keyframes beat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.15); } /* More pronounced beat */
         }
         
         /* --- Timeline Styles --- */
         .timeline-container {
             position: relative;
+            padding-left: 1.5rem; /* Space for the line and dot */
         }
 
         /* The main vertical line */
         .timeline-line {
             position: absolute;
-            left: calc(0.75rem - 1px); /* Centers line with the dot (dot is 1.5rem wide, line is 2px wide) */
+            left: 0.75rem; /* Center with the dot */
             top: 0;
             bottom: 0;
             width: 2px;
-            background-color: #db2777; /* Fuchsia */
+            background-color: var(--primary-color);
         }
 
         /* The moving dot */
         .moving-timeline-dot {
             position: absolute;
-            left: 0; /* Aligns its left edge with the start of the timeline-container */
+            left: calc(0.75rem - 0.75rem); /* Align with the line's center */
             height: 1.5rem;
             width: 1.5rem;
             border-radius: 9999px;
-            background-color: #db2777; /* Fuchsia */
-            border: 3px solid white;
-            z-index: 10; /* Ensure it's on top */
-            transition: top 0.2s ease-out, transform 0.2s ease-out; /* Smooth movement */
+            background-color: var(--primary-color);
+            border: 4px solid var(--card-bg); /* Thicker white border */
+            z-index: 10;
+            transition: top 0.2s ease-out, transform 0.2s ease-out;
             transform: scale(1); /* Initial scale */
+        }
+        .moving-timeline-dot.active-pulse {
+            animation: dotPulse 1s ease-out; /* Apply pulse when active */
+        }
+        @keyframes dotPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 39, 119, 0.7); }
+            70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(219, 39, 119, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 39, 119, 0); }
         }
 
         .timeline-item {
             position: relative;
-            padding-bottom: 2rem;
-            padding-left: 2rem; /* Offset for content, after the dot */
+            padding-bottom: 2.5rem; /* More space between items */
+            padding-left: 2.5rem; /* Offset for content, after the dot */
         }
         .timeline-item:last-child {
             padding-bottom: 0;
@@ -91,16 +128,30 @@
 
         .timeline-content {
             opacity: 0.6; /* Default slightly faded */
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
             transform: translateY(0); /* Ensure no initial transform */
+            background-color: var(--card-bg); /* Card background for content */
+            border-radius: 0.75rem; /* Slightly rounded corners */
+            padding: 1.25rem; /* Padding inside the content box */
+            box-shadow: var(--shadow-light); /* Subtle shadow for content box */
+            border: 1px solid rgba(0,0,0,0.03); /* Lighter subtle border */
+        }
+        .timeline-content p {
+            color: var(--text-light); /* Consistent text color */
         }
 
         /* Highlight active content */
         .timeline-content.active {
             opacity: 1;
-            font-weight: 600; /* Make text bolder */
-            transform: translateY(-5px); /* Slight lift */
-            font-size: 1.1em;
+            font-weight: 500; /* Medium weight for readability */
+            transform: translateY(-8px); /* Slight lift */
+            font-size: 1.05em; /* Slightly enlarge active text */
+            box-shadow: var(--shadow-hover); /* More pronounced shadow */
+            border-color: rgba(219, 39, 119, 0.2); /* Subtle accent border */
+        }
+        .timeline-content.active .font-semibold {
+            font-weight: 600; /* Bolder for active titles */
+            color: var(--primary-color);
         }
 
         /* Image specific styles for cropping and hover */
@@ -114,14 +165,61 @@
         .card:hover img {
             transform: scale(1.05); /* Slightly enlarge on hover */
         }
+
+        /* Hero Header improvements */
+        .hero-header {
+            position: relative;
+            overflow: hidden; /* Hide overflowing pseudo-element */
+        }
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(219, 39, 119, 0.8), rgba(255, 105, 180, 0.7)); /* Gradient overlay */
+            z-index: 1;
+            transform: skewY(-2deg); /* Subtle skew effect */
+            transform-origin: top left;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-content-wrapper {
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modalImage {
+            transition: transform 0.3s ease-in-out;
+        }
+        #imageModal.active #modalImage {
+            transform: scale(1);
+        }
+        #imageModal {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            visibility: hidden;
+        }
+        #imageModal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
     </style>
 </head>
-<body class="bg-[#e6e6fa] text-slate-700">
+<body class="bg-[var(--secondary-bg)] text-[var(--text-dark)]">
 
-    <header class="text-center py-16 px-4 bg-cover bg-center">
-        <div class="bg-black bg-opacity-20 p-10 rounded-2xl inline-block" style="background-color: rgba(219, 39, 119, 0.7);">
-            <h1 class="font-playfair text-5xl md:text-7xl text-white font-bold">Nir & Ziya</h1>
-            <p class="mt-4 text-lg md:text-xl text-slate-200">Celebrating a Journey of Love</p>
+    <header class="hero-header text-center py-16 px-4">
+        <div class="hero-content relative bg-white bg-opacity-10 p-10 rounded-2xl inline-block backdrop-blur-sm">
+            <h1 class="font-playfair text-5xl md:text-7xl text-white font-bold drop-shadow-lg">Nir & Ziya</h1>
+            <p class="mt-4 text-lg md:text-xl text-pink-100 drop-shadow">Celebrating a Journey of Love</p>
         </div>
     </header>
 
@@ -129,11 +227,11 @@
 
         <section id="countdown" class="mb-16">
             <div class="card p-6 md:p-10 max-w-4xl mx-auto">
-                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Together For...</h2>
+                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Together For...</h2>
                 <div id="timer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 text-center">
-                    </div>
-                   <div class="text-center mt-6">
-                    <p class="text-slate-600">Our special day: <span id="anniversaryDate" class="font-semibold"></span></p>
+                </div>
+                <div class="text-center mt-6">
+                    <p class="text-[var(--text-light)]">Our special day: <span id="anniversaryDate" class="font-semibold text-[var(--primary-color)]"></span></p>
                 </div>
             </div>
         </section>
@@ -142,12 +240,12 @@
             <div class="card p-6 md:p-10">
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <div class="md:w-1/2">
-                        <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[#db2777] mb-4">Our Story</h2>
-                        <p class="text-slate-600 leading-relaxed mb-4">It feels like just yesterday we started this incredible journey. From our first meet, to nervous laughter and endless conversation, to today, our bond has only grown stronger. We've built a life full of love, adventure, and countless cherished memories.</p>
-                        <p class="text-slate-600 leading-relaxed">We have shared so many beautiful moments together, and I cherish each one of them. I have grown so much as a person because of you. I hope I have given you happiness and the love you deserve</p>
+                        <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[var(--primary-color)] mb-4">Our Story</h2>
+                        <p class="text-[var(--text-light)] leading-relaxed mb-4">It feels like just yesterday we started this incredible journey. From our first meet, to nervous laughter and endless conversation, to today, our bond has only grown stronger. We've built a life full of love, adventure, and countless cherished memories.</p>
+                        <p class="text-[var(--text-light)] leading-relaxed">We have shared so many beautiful moments together, and I cherish each one of them. I have grown so much as a person because of you. I hope I have given you happiness and the love you deserve</p>
                     </div>
-                    <div class="md:w-1/2 card p-2 h-80">
-                        <img src="./Img/0.png" alt="A happy couple" class="rounded-2xl shadow-lg w-full h-full">
+                    <div class="md:w-1/2 card p-2 h-80 flex-shrink-0">
+                        <img src="./Img/0.png" alt="A happy couple" class="rounded-xl shadow-lg w-full h-full">
                     </div>
                 </div>
             </div>
@@ -155,17 +253,15 @@
 
         <section id="timeline" class="mb-16">
             <div class="card p-6 md:p-10 max-w-6xl mx-auto">
-                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">A Timeline of Our Journey</h2>
+                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">A Timeline of Our Journey</h2>
                 <div class="timeline-container">
-                    <!-- Main vertical line -->
                     <div class="timeline-line"></div>
-                    <!-- The single moving dot -->
                     <div id="movingDot" class="moving-timeline-dot"></div>
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">August 2024 - How We Met</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">August 2024 - How We Met</p>
+                            <p class="text-[var(--text-light)]">
                                 A chance encounter on VirelApp brought two very different worlds together. You were new, I was familiar with the place — and fate introduced us in the simplest way. We didn’t know then how special it would all become. That day, we were just two slightly clueless souls, unknowingly meeting someone unforgettable.
                             </p>
                         </div>
@@ -173,8 +269,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">September 2024 - Movies and Late Night Talks</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">September 2024 - Movies and Late Night Talks</p>
+                            <p class="text-[var(--text-light)]">
                                 We started connecting over our shared love for anime and shows. You took my teasing in stride, and even when I gave you a hard time about Arima, we always ended up laughing. Slowly, playfulness turned into comfort.
                             </p>
                         </div>
@@ -182,8 +278,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">October 2024 - Finding Connection</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">October 2024 - Finding Connection</p>
+                            <p class="text-[var(--text-light)]">
                                 Countless nights spent watching horror movies, sharing stories, and laughing together created a beautiful spark. Our conversations flowed effortlessly, and our connection grew deeper. Even when I worried if I belonged in your world, I knew I had found someone truly special.
                             </p>
                         </div>
@@ -191,8 +287,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">November 2024 - The Beginning</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">November 2024 - The Beginning</p>
+                            <p class="text-[var(--text-light)]">
                                 A beautiful moment changed everything. Our playful banter turned into something more, something real. I still cringe thinking about the message I sent — the one you lovingly tease me about. I fell sick on your birthday and couldn’t stay awake to wish you, though I tried with all my heart. The first month brought joy, wonder, and a touch of uncertainty — but mostly, it brought *us*.
                             </p>
                         </div>
@@ -200,8 +296,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">December 2024 - Quiet Growth</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">December 2024 - Quiet Growth</p>
+                            <p class="text-[var(--text-light)]">
                                 We slowed down and took the time to understand each other. We shared our dreams and fears, discovering how beautifully our lives could align. Though I still had questions about the future, one thing was clear — I wanted you in it.
                             </p>
                         </div>
@@ -209,8 +305,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">January 2025 - Apart but Together</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">January 2025 - Apart but Together</p>
+                            <p class="text-[var(--text-light)]">
                                 Life took us on different paths for a while, and being away from you was harder than I imagined. But we held on — knowing the distance was just a moment, and our bond was stronger than the miles between us.
                             </p>
                         </div>
@@ -218,8 +314,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">February 2025 - A Valentine We Won’t Forget</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">February 2025 - A Valentine We Won’t Forget</p>
+                            <p class="text-[var(--text-light)]">
                                 Love was in the air, but so were misunderstandings. We stumbled a little, misread each other, and things got messy. Still, I sent you a rose and chocolates, hoping to make it right. Even when the valentines' gifts went missing, I knew that the real gift was us learning to hold each other through tough times.
                             </p>
                         </div>
@@ -227,8 +323,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">March 2025 - Weathering Storms</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">March 2025 - Weathering Storms</p>
+                            <p class="text-[var(--text-light)]">
                                 We had our first big fight, and it wasn’t easy. But through tears and silence, we realized something powerful: we were both willing to try. I’ll never forget how tenderly you kept that rose, or how meaningful the small gestures became. I learned to support you during your toughest days — with snacks, chocolates, and a quiet kind of love.
                             </p>
                         </div>
@@ -236,8 +332,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">April 2025 - Healing</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">April 2025 - Healing</p>
+                            <p class="text-[var(--text-light)]">
                                 After the emotional waves, came still waters. We focused on rebuilding, on forgiving, on appreciating what we had. Your birthday gift — just a picture of us — said more than words ever could. It reminded me how much love can be held in a single moment.
                             </p>
                         </div>
@@ -245,8 +341,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">May 2025 - Learning and Loving</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">May 2025 - Learning and Loving</p>
+                            <p class="text-[var(--text-light)]">
                                 We grew — not just together, but within ourselves. I surprised you with roses, and later that day we faced something painful. It was a hard moment, and it tested our trust. But we chose honesty. You surprised me again by telling the world about us, and it showed me you cared. We were learning to be better, together.
                             </p>
                         </div>
@@ -254,8 +350,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">June 2025 - Simple Joys</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">June 2025 - Simple Joys</p>
+                            <p class="text-[var(--text-light)]">
                                 Life got busy, but love stayed quiet and constant. We found joy in everyday things — shared meals, peaceful evenings, just being close. We learned that sometimes, love lives in the smallest, calmest moments.
                             </p>
                         </div>
@@ -263,8 +359,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">July 2025 - The Month of Love</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">July 2025 - The Month of Love</p>
+                            <p class="text-[var(--text-light)]">
                                 You surprised me with a thoughtful gift, and your heartfelt letters meant the world to me. Every little trinket you gave, I will cherish forever. Your love made this month truly unforgettable.
                             </p>
                         </div>
@@ -272,8 +368,8 @@
 
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <p class="font-semibold text-[#db2777]">August 2025 - Looking Ahead</p>
-                            <p class="text-slate-600">
+                            <p class="font-semibold text-[var(--primary-color)] mb-1">August 2025 - Looking Ahead</p>
+                            <p class="text-[var(--text-light)]">
                                 As we dream about tomorrow, I feel nothing but hope. I’ve discovered so much about myself and us. You’ve helped me grow, and I hope I’ve done the same for you. I love you deeply — and I can’t wait to write the next chapters of our beautiful story, together.
                             </p>
                         </div>
@@ -285,16 +381,16 @@
 
         <section id="playlist" class="mb-16">
             <div class="card p-6 md:p-10 max-w-4xl mx-auto">
-                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Our Playlist</h2>
-                <p class="text-center text-slate-500 mb-6">The soundtrack to our love story.</p>
-                <div class="aspect-w-16 aspect-h-9">
+                <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Our Playlist</h2>
+                <p class="text-center text-[var(--text-light)] mb-6">The soundtrack to our love story.</p>
+                <div class="aspect-w-16 aspect-h-9 w-full">
                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5HLJarDKVDBOYdcTR8XDok?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
             </div>
         </section>
 
         <section id="gallery" class="mb-16">
-               <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[#db2777] mb-8">Our Memories</h2>
+               <h2 class="font-playfair text-3xl md:text-4xl text-center font-bold text-[var(--primary-color)] mb-8">Our Memories</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div class="card p-2">
                     <img src="./Img/1.jpg" alt="Memory 1" class="rounded-xl">
@@ -349,13 +445,13 @@
 
         <section id="message">
                <div class="card p-6 md:p-10 max-w-4xl mx-auto text-center">
-                   <div class="heart-icon text-[#db2777] text-4xl mb-4">
+                   <div class="heart-icon text-[var(--primary-color)] text-4xl mb-4">
                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 20 20" fill="currentColor">
                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                        </svg>
                    </div>
-                   <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[#db2777] mb-4">A Note To My Love</h2>
-                   <p class="text-slate-600 leading-relaxed text-lg">
+                   <h2 class="font-playfair text-3xl md:text-4xl font-bold text-[var(--primary-color)] mb-4">A Note To My Love</h2>
+                   <p class="text-[var(--text-light)] leading-relaxed text-lg">
                        "My dearest, with you, every day is a celebration.<br> Thank you for being <i><b>my cucu, my cute bubu, and my love</b></i>.<br> I love you more than words can say. Here's to our future!"
                    </p>
                </div>
@@ -363,14 +459,16 @@
 
     </main>
     
-    <footer class="text-center py-8 mt-12">
-        <p class="text-slate-600">Made with love, for my love.</p>
-        <p class="text-slate-600 text-sm">© <span id="footerYear">2024</span> Nir & Ziya</p>
+    <footer class="text-center py-8 mt-12 bg-white rounded-t-3xl shadow-inner">
+        <p class="text-[var(--text-light)]">Made with love, for my love.</p>
+        <p class="text-[var(--text-light)] text-sm">© <span id="footerYear">2024</span> Nir & Ziya</p>
     </footer>
 
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 hidden">
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
         <span class="absolute top-4 right-4 text-white text-5xl cursor-pointer hover:scale-110 transition-transform duration-200" id="closeModal">×</span>
-        <img src="" alt="Enlarged Memory" id="modalImage" class="max-w-[90%] max-h-[90vh] object-contain rounded-lg shadow-lg">
+        <div class="modal-content-wrapper">
+             <img src="" alt="Enlarged Memory" id="modalImage" class="max-w-[90%] max-h-[90vh] object-contain rounded-lg shadow-lg transform scale-0">
+        </div>
     </div>
 
     <script>
@@ -385,8 +483,10 @@
             let months = now.getMonth() - anniversary.getMonth();
             let days = now.getDate() - anniversary.getDate();
 
+            // Adjust days and months if current day/month is before anniversary day/month
             if (days < 0) {
                 months--;
+                // Get days in the previous month
                 const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                 days += prevMonth.getDate();
             }
@@ -396,6 +496,7 @@
                 months += 12;
             }
             
+            // Calculate remaining time for hours, minutes, seconds after full days
             const secondsInDay = 1000 * 60 * 60 * 24;
             const remainingDiffAfterDays = diff % secondsInDay;
 
@@ -410,27 +511,25 @@
                     <div class="timer-box"><div class="timer-value">${years}</div><div class="timer-label">Years</div></div>
                     <div class="timer-box"><div class="timer-value">${months}</div><div class="timer-label">Months</div></div>
                     <div class="timer-box"><div class="timer-value">${days}</div><div class="timer-label">Days</div></div>
-                    <div class="timer-box">
-                        <div class="flex justify-center space-x-2">
+                    <div class="timer-box flex justify-center items-center h-full">
+                        <div class="flex space-x-2 md:space-x-3 time-part">
                             <div>
-                                <div class="timer-value" style="font-size: 1.8rem;">${String(hours).padStart(2, '0')}</div>
-                                <div class="timer-label" style="font-size: 0.7rem;">Hours</div>
+                                <div class="timer-value">${String(hours).padStart(2, '0')}</div>
+                                <div class="timer-label">Hours</div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="timer-value">:</div>
                             </div>
                             <div>
-                                <div class="timer-value" style="font-size: 1.8rem;">:</div>
-                                <div class="timer-label" style="font-size: 0.7rem;"> </div>
+                                <div class="timer-value">${String(minutes).padStart(2, '0')}</div>
+                                <div class="timer-label">Mins</div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="timer-value">:</div>
                             </div>
                             <div>
-                                <div class="timer-value" style="font-size: 1.8rem;">${String(minutes).padStart(2, '0')}</div>
-                                <div class="timer-label" style="font-size: 0.7rem;">Mins</div>
-                            </div>
-                            <div>
-                                <div class="timer-value" style="font-size: 1.8rem;">:</div>
-                                <div class="timer-label" style="font-size: 0.7rem;"> </div>
-                            </div>
-                            <div>
-                                <div class="timer-value" style="font-size: 1.8rem;">${String(seconds).padStart(2, '0')}</div>
-                                <div class="timer-label" style="font-size: 0.7rem;">Secs</div>
+                                <div class="timer-value">${String(seconds).padStart(2, '0')}</div>
+                                <div class="timer-label">Secs</div>
                             </div>
                         </div>
                     </div>
@@ -469,13 +568,13 @@
                 image.style.cursor = 'pointer';
                 image.addEventListener('click', () => {
                     modalImage.src = image.src;
-                    imageModal.classList.remove('hidden');
+                    imageModal.classList.add('active'); // Use 'active' class for opacity/visibility
                     document.body.style.overflow = 'hidden';
                 });
             });
 
             const hideModal = () => {
-                imageModal.classList.add('hidden');
+                imageModal.classList.remove('active');
                 document.body.style.overflow = '';
             };
 
@@ -501,9 +600,8 @@
                 const viewportCenter = window.innerHeight / 2;
 
                 let activeItem = null;
-                let activeItemContentCenterY = 0; // Will store the center of the content div
+                let activeItemContentCenterY = 0;
 
-                // Find the active item (the one closest to the viewport center)
                 timelineItems.forEach((item, index) => {
                     const content = item.querySelector('.timeline-content');
                     if (!content) return;
@@ -511,8 +609,7 @@
                     const contentRect = content.getBoundingClientRect();
                     const contentCenterY = contentRect.top + contentRect.height / 2;
 
-                    // Check if the item's content is within a reasonable range of the viewport center
-                    const activationThreshold = window.innerHeight * 0.2; // Adjusted threshold for content visibility
+                    const activationThreshold = window.innerHeight * 0.25; // Larger activation area
 
                     if (contentRect.top < viewportCenter + activationThreshold && contentRect.bottom > viewportCenter - activationThreshold) {
                         if (!activeItem || Math.abs(contentCenterY - viewportCenter) < Math.abs(activeItemContentCenterY - viewportCenter)) {
@@ -522,7 +619,6 @@
                     }
                 });
 
-                // Update active class for timeline content
                 timelineItems.forEach(item => {
                     const content = item.querySelector('.timeline-content');
                     if (content) {
@@ -534,36 +630,59 @@
                     }
                 });
 
-                // Position the moving dot
                 if (activeItem) {
                     const activeContent = activeItem.querySelector('.timeline-content');
                     const activeContentRect = activeContent.getBoundingClientRect();
                     
-                    // Calculate dot's top position relative to the timeline container
-                    // Dot's center should align with the active content's center
                     const dotTop = (activeContentRect.top + activeContentRect.height / 2) - containerRect.top - (movingDot.offsetHeight / 2);
                     
-                    // Constrain the dot to stay within the timeline line boundaries
                     const minTop = 0;
                     const maxTop = timelineLine.offsetHeight - movingDot.offsetHeight;
-                    movingDot.style.top = `${Math.max(minTop, Math.min(dotTop, maxTop))}px`;
+                    
+                    const newDotTop = Math.max(minTop, Math.min(dotTop, maxTop));
+                    
+                    // Only apply pulse animation if dot position significantly changes
+                    const currentDotTop = parseFloat(movingDot.style.top || '0');
+                    if (Math.abs(currentDotTop - newDotTop) > 5) { // Threshold for "significant" movement
+                        movingDot.classList.add('active-pulse');
+                        setTimeout(() => movingDot.classList.remove('active-pulse'), 1000); // Remove after animation
+                    }
 
-                    // Add a slight scale animation when the dot moves to a new active item
-                    movingDot.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        movingDot.style.transform = 'scale(1)';
-                    }, 200); // Briefly scale up then back down
+                    movingDot.style.top = `${newDotTop}px`;
+
                 } else {
-                    // If no item is active (e.g., scrolled past timeline), hide or reset dot
-                    // For now, let's keep it at the top if no active item is found
-                    movingDot.style.top = '0px';
+                    // If no item is active (e.g., scrolled past timeline), keep dot at a reasonable position
+                    // For example, if scrolled above, keep at top. If scrolled below, keep at bottom.
+                    const firstItemContent = timelineItems[0].querySelector('.timeline-content');
+                    const lastItemContent = timelineItems[timelineItems.length - 1].querySelector('.timeline-content');
+                    
+                    if (firstItemContent && lastItemContent) {
+                        const firstContentRect = firstItemContent.getBoundingClientRect();
+                        const lastContentRect = lastItemContent.getBoundingClientRect();
+
+                        if (window.scrollY < firstContentRect.top + window.scrollY - (window.innerHeight / 2)) {
+                            movingDot.style.top = '0px'; // Scrolled above timeline
+                        } else if (window.scrollY > lastContentRect.bottom + window.scrollY - (window.innerHeight / 2)) {
+                            movingDot.style.top = `${timelineLine.offsetHeight - movingDot.offsetHeight}px`; // Scrolled below timeline
+                        }
+                    }
                 }
             }
 
-            // Initial call and attach to scroll event
+            const debounce = (func, delay) => {
+                let timeout;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(context, args), delay);
+                };
+            };
+
+            const debouncedUpdateTimelineDot = debounce(updateTimelineDot, 10); // Debounce for performance
+
             updateTimelineDot();
-            window.addEventListener('scroll', updateTimelineDot);
-            window.addEventListener('resize', updateTimelineDot); // Recalculate on resize
+            window.addEventListener('scroll', debouncedUpdateTimelineDot);
+            window.addEventListener('resize', debouncedUpdateTimelineDot);
         });
 
     </script>
